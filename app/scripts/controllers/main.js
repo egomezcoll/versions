@@ -22,36 +22,52 @@ angular.module('versionsApp')
    
     
     $scope.login = function() {
-    
-    
-      // From now on you can use the Facebook service just as Facebook api says
+          // From now on you can use the Facebook service just as Facebook api says
       Facebook.login(function(response) {
         // Do something with response.
+        if(response.status === 'connected'){
+            $scope.loggedIn = true;
+            $scope.me();
+        }
         
       });
     };
     
+    $scope.loginG = function(){
+        GooglePlus.login().then(function (authResult) {
+           if(authResult.status.google_logged_in){
+               $scope.loggedIn = true;
+           }else{
+               $scope.loggedIn = false;
+           }
+           GooglePlus.getUser().then(function (user) {
+               $scope.user = user;
+               console.log(user);
+           });
+       }, function (err) {
+           console.log(err);
+       });
+    }
+    
     $scope.getLoginStatus = function() {
         setTimeout(function(){ 
-        GooglePlus.login().then(function (authResult) {
-            console.log(authResult);
-
-            GooglePlus.getUser().then(function (user) {
-                console.log(user);
-            });
-        }, function (err) {
-            console.log(err);
-        });
+           GooglePlus.getUser().then(function (user) {
+               if(user.code){
+                    $scope.loggedIn = false;
+               }else{
+                   $scope.loggedIn = true;
+                   $scope.user = user;
+               }
+           });
         },4000);
       Facebook.getLoginStatus(function(response) {
-          console.log(response);
         if(response.status === 'connected') {
           $scope.loggedIn = true;
           $scope.me();
         } else {
           $scope.loggedIn = false;
         }
-       
+      
       });
     };
 
@@ -59,7 +75,6 @@ angular.module('versionsApp')
       Facebook.api('/me', function(response) {
          $scope.$apply(function() {
               $scope.user = response;
-                console.log(response);
             });  
         
       });

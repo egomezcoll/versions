@@ -24,11 +24,17 @@
     <!-- Add your site or application content here -->
     <div class="wrapper">
       <div class="header">
+          <ul class="nav pull-right" ng-controller="MainCtrl"> 
+            <li ng-if="loggedIn">Welcome {{user.name}}</li>
+            <li ng-if="!loggedIn">Welcome guess</li>
+            <li ng-if="!loggedIn"><a ng-click="login()">Login FB</a></li>
+            <li ng-if="!loggedIn"><a ng-click="loginG()">Login G+</a></li>
+        </ul>    
         <ul class="nav nav-pills pull-right">
           <li class="active"><a ng-href="#">Home</a></li>
-          <li><a ng-href="#/about">About</a></li>
           <li><a ng-href="#">Contact</a></li>
         </ul>
+           
         <h3 class="text-muted">Photomontage</h3>
       </div>
 
@@ -72,7 +78,7 @@
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="bower_components/angular-facebook/lib/angular-facebook.js"></script>
-    <script src="bower_components/angular-google-plus/dist/angular-google-plus.min.js"></script>
+    <script src="bower_components/angular-google-plus/dist/angular-google-plus.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 

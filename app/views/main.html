@@ -1,5 +1,3 @@
-<div ng-if="facebookReady">hey</div>
-{{facebookReady}}
 <div class="row elementRow" ng-repeat="output in outputs">
     <div class="col-md-10">
         <div class="row">
@@ -21,7 +19,7 @@
         </div>
         <div class="row">
             <div class="col-md-8"></div>
-            <div class="col-md-4" style="height: 80px; padding: 5px;">
+            <div class="col-md-4" ng-if="loggedIn" style="height: 80px; padding: 5px;">
                 <textarea class="form-control" rows="4" placeholder="Write a comment.."></textarea>
                 <button type="button" style='margin-top:5px;' class="btn btn-primary btn-sm btn-block">Send</button>
             </div>
