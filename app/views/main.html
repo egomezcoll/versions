@@ -3,7 +3,9 @@
         <div class="row">
             <div class="col-md-8" style="text-align: center;">
                 <div style="width:100%; font-weight: 700; font-size:18px; text-align: left;">{{output.title}}</div>
-                <div style="padding-top:25px; padding-bottom: 25px;" ng-bind-html="output.element"></div>
+                <div id="content{{output.id}}">
+                    <div ng-click="nextRepost(output.id)" style="padding-top:25px; padding-bottom: 25px;" ng-bind-html="output.element"></div>
+                </div>
             </div>
             <div class="col-md-4" style='margin-top: 50px; overflow: auto; max-height: 400px; border-top: 1px solid #CCCCCC;'>
                 <div class="row" ng-repeat='com in comments | filter:{postId: output.id}' style="border-bottom: 1px dotted #CCCCCC; font-size:12px; text-align: left;">

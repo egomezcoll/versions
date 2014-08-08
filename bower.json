@@ -14,7 +14,9 @@
     "angular-route": "1.2.16",
     "bootstrap": "~3.2.0",
     "angular-facebook": "~0.2.2",
-    "angular-google-plus": "~0.1.2"
+    "angular-google-plus": "~0.1.2",
+    "bootstrap-social": "~4.6.0",
+    "fontawesome": "~4.1.0"
   },
   "devDependencies": {
     "angular-mocks": "1.2.16",

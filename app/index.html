@@ -9,11 +9,14 @@
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/bootstrap-social/bootstrap-social.css">
+    <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.min.css">
     <!-- endbuild -->
   </head>
   <body ng-app="versionsApp">
@@ -22,18 +25,33 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
+    
+    <!-- FACEBOOK IMAGE http://stackoverflow.com/questions/11442442/get-user-profile-picture-by-id -->
     <div class="wrapper">
+            {{user}}
+
       <div class="header">
-          <ul class="nav pull-right" ng-controller="MainCtrl"> 
-            <li ng-if="loggedIn">Welcome {{user.name}}</li>
-            <li ng-if="!loggedIn">Welcome guess</li>
-            <li ng-if="!loggedIn"><a ng-click="login()">Login FB</a></li>
-            <li ng-if="!loggedIn"><a ng-click="loginG()">Login G+</a></li>
-        </ul>    
-        <ul class="nav nav-pills pull-right">
+          <div class="pull-right" ng-controller="MainCtrl"> 
+            <div style="float:left; display:inline-block; padding-left:7px;" ng-if="loggedIn">
+                <div style="float:left; display:inline-block;"><img src="{{picture}}" style="max-width:50px;"></div>
+                <div style="float:left; display:inline-block; padding-top:7px; padding-left:5px;">Welcome,<br>{{user.name}}   
+</div>
+            </div>
+            <!--<div style="float:left; display:inline-block; padding-top:12px; padding-left:7px;"  ng-if="!loggedIn">Welcome guess</div>-->
+            <div style="float:left; display:inline-block; padding-top:7px; padding-left:7px;"  ng-if="!loggedIn">
+                <a ng-click="login()" class="btn btn-block btn-sm btn-social btn-facebook">
+                    <i class="fa fa-facebook"></i> Facebook login
+                  </a>
+            </div>
+            <div style="float:left; display:inline-block; padding-top:7px; padding-left:7px;"  ng-if="!loggedIn">
+                <a ng-click="loginG()" class="btn btn-block btn-sm btn-social btn-google-plus">
+                    <i class="fa fa-google-plus"></i> Google+ login
+                  </a>
+            </div>
+        </div>    
+       <!--<ul class="nav nav-pills pull-right">
           <li class="active"><a ng-href="#">Home</a></li>
-          <li><a ng-href="#">Contact</a></li>
-        </ul>
+        </ul>-->
            
         <h3 class="text-muted">Photomontage</h3>
       </div>

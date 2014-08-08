@@ -8,8 +8,9 @@
  * Controller of the versionsApp
  */
 angular.module('versionsApp')
-  .controller('MainCtrl', function ($scope, Facebook, GooglePlus) {
+  .controller('MainCtrl', ['$scope','$filter','Facebook', 'GooglePlus', function ($scope,$filter, Facebook, GooglePlus) {
    $scope.facebookReady = false;
+   $scope.loggedIn = false;
    $scope.$watch(function() {
   // This is for convenience, to notify if Facebook is loaded and ready to go.
   return Facebook.isReady();
@@ -42,7 +43,7 @@ angular.module('versionsApp')
            }
            GooglePlus.getUser().then(function (user) {
                $scope.user = user;
-               console.log(user);
+               $scope.picture = $scope.user.picture;
            });
        }, function (err) {
            console.log(err);
@@ -50,22 +51,22 @@ angular.module('versionsApp')
     }
     
     $scope.getLoginStatus = function() {
-        setTimeout(function(){ 
-           GooglePlus.getUser().then(function (user) {
-               if(user.code){
-                    $scope.loggedIn = false;
-               }else{
-                   $scope.loggedIn = true;
-                   $scope.user = user;
-               }
-           });
-        },4000);
+            
       Facebook.getLoginStatus(function(response) {
         if(response.status === 'connected') {
-          $scope.loggedIn = true;
-          $scope.me();
+            $scope.loggedIn = true;
+            $scope.me();
         } else {
-          $scope.loggedIn = false;
+            $scope.loggedIn = false;
+            GooglePlus.getUser().then(function (user) {
+                if(user.code){
+                     $scope.loggedIn = false;
+                }else{
+                    $scope.loggedIn = true;
+                    $scope.user = user;
+                    $scope.picture = $scope.user.picture;
+                }
+            });
         }
       
       });
@@ -75,6 +76,7 @@ angular.module('versionsApp')
       Facebook.api('/me', function(response) {
          $scope.$apply(function() {
               $scope.user = response;
+              $scope.picture = 'http://graph.facebook.com/'+$scope.user.id+'/picture?type=square';
             });  
         
       });
@@ -95,6 +97,12 @@ angular.module('versionsApp')
         {"title":"Title 1", "element":"<img>", "id":"2", "username":"gomco"},
         {"title":"Title 1", "element":"<img>", "id":"2", "username":"gomco"}
     ];
+    
+    $scope.Reoutputs = [
+        {"element":"<img src='../images/gf.gif'>", "id":"1", "postId":"1",  "username":"gomco"},
+        {"element":"<img src='../images/honestly.jpg'>", "id":"1", "postId":"1", "username":"gomco"},
+        {"element":"<img src='../images/honestly.jpg'>", "id":"1", "postId":"2", "username":"gomco"}
+    ];
 
 
     $scope.comments = [
@@ -112,7 +120,17 @@ angular.module('versionsApp')
         {"id":"12", "postId":"2","username":"gomco","comment":"Hey hey hey!! it's true man!! :) thumbs up!"}
     ];
     
-    //785273281487494
+    $scope.Recomments = [
+        {"id":"1", "repostId":"1","username":"gomco","comment":"22Hey hey hey!! it's true man!! :) thumbs up!"},
+        {"id":"2", "repostId":"1","username":"gomco","comment":"22Hey hey hey!! it's true man!! :) thumbs up!"}
+    ];
+    
+    
+    $scope.nextRepost = function(id){
+        $scope.ReoutputsFiltered = $filter('filter')($scope.Reoutputs,{'postId':id}); 
+        $("#content"+id).html('<div style="padding-top:25px; padding-bottom: 25px;" ng-bind-html="ReoutputsFiltered[0].element"></div>');
+    };
+    
  
 
-});
+}]);
